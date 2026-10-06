@@ -1,31 +1,27 @@
 class Solution(object):
     def __init__(self) -> None:
-        self.visited = set()
-        self.number_of_islands = 0
-        
+        pass
+    
     def numIslands(self, grid):
-        for i in range(len(grid)):
-            for j in range(len(grid[i])):
-                if (i,j) not in self.visited:
-                    if "1" not in grid[i]:
-                        break
-                    if grid[i][j] == "1":
-                        if not (i,j) in self.visited:
-                            self.dsa(grid, i, j)
-                            self.number_of_islands += 1
-                
-                
-        return self.number_of_islands
-        
-    def dsa(self, arr, i, j):
-        if 0 <= i < len(arr) and 0 <= j < len(arr[i]):
-            if (i,j) not in self.visited:
-                if arr[i][j] == "1":
-                    self.visited.add((i,j))
-                    self.dsa(arr, i, j+1)
-                    self.dsa(arr, i, j-1)
-                    self.dsa(arr,i+1, j)
-                    self.dsa(arr, i-1, j)
+        if not grid:
+            return 0
+        island = 0
+        for index in range(len(grid)):
+            for inner in range(len(grid[index])):
+                if grid[index][inner] == "1":
+                    self.dfs_island(grid, index, inner)
+                    island += 1
+        return island
+    
+    def dfs_island(self, grid, index, inner):
+        if not(0 <= index < len(grid)) or not(0 <= inner < len(grid[index])) or grid[index][inner] != "1":
+            return
+        grid[index][inner] = "#"
+        self.dfs_island(grid, index + 1, inner)
+        self.dfs_island(grid, index - 1, inner)
+        self.dfs_island(grid, index, inner + 1)
+        self.dfs_island(grid, index, inner - 1)
+                    
             
 
 if __name__ == "__main__":
